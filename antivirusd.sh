@@ -4,7 +4,7 @@ src_dir=$1
 malicious_dir=$2
 delay=$3
 
-ls -a -l "$src_dir" > directory-info.last
+ls -la "$src_dir" > directory-info.last
 echo " " > directory-info.new
 
 while true; do
