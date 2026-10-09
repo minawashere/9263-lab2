@@ -27,7 +27,9 @@ while true; do
     if [ "$count" -eq "$selected_file" ]; then
       case "$selected_option" in
       1) mv "$file" "$src_dir"
-        echo "Restored $file to $src_dir";;
+        echo "Restored $file to $src_dir"
+        filename="${file##*/}"
+        echo "$filename" >> whitelist.txt ;;
       2) rm "$file"
         echo " $file permanently deleted";;
       3) break ;;

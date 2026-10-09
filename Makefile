@@ -1,6 +1,6 @@
-SRC_DIR ?= ./source_dir
-MALICIOUS_DIR ?= ./malicious_dir
-DELAY ?= 5
+SRC_DIR := ./src_dir
+MALICIOUS_DIR := ./malicious_dir
+DELAY := 5
 
 .PHONY: all antivirus restore clean
 
@@ -16,4 +16,4 @@ restore: $(MALICIOUS_DIR)
 	./restore.sh $(SRC_DIR) $(MALICIOUS_DIR)
 
 clean:
-	rm -f directory-info.last directory-info.new
+	rm -f directory-info.last directory-info.new whitelist.txt
