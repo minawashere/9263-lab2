@@ -1,6 +1,6 @@
 /src_dir/*
 /directory-info.last
 /directory-info.new
-/garbage_dir/*
+/malicious_dir/*
 /.idea
 /whitelist.txt

@@ -16,14 +16,14 @@ while true; do
   done
 
   echo " "
-  read -p "Select File By Number: " selected_file # https://www.geeksforgeeks.org/linux-unix/bash-script-read-user-input/
+  read -p "Select File By Number: " selected_file
   echo "1 restore file back"
   echo "2 permanently delete file"
   echo "3 back to files"
   read -p "Select option: " selected_option
 
   count=0
-  for file in "$malicious_dir"*; do
+  for file in "$malicious_dir"/*; do
     if [ "$count" -eq "$selected_file" ]; then
       case "$selected_option" in
       1) mv "$file" "$src_dir"

@@ -22,7 +22,7 @@ while true; do
       fi
 
       if [[ $file =~ \.(exe|bat|vbs|scr|ps1)$ ]] ||
-          grep -Eiq "virus|trojan|malware|worm|ransomware" "$file"; then #https://stackoverflow.com/a/407334
+          grep -Eiq "virus|trojan|malware|worm|ransomware" "$file"; then
         mv "$file" "$malicious_dir"
         echo "$file is malicious and it is DELETED"
       fi
