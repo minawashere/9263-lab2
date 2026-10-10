@@ -62,12 +62,73 @@ make clean
 ./restore.sh <src_dir> <malicious_dir>
 ```
 ### Flagged Extensions and Keywords
-./antivirusd.sh
+./antivirusd.sh\
+```shell
+-E # for regex, to use |
+-q # quiet
+-i # case insensetive
+```
 ```shell
 if [[ $file =~ \.(exe|bat|vbs|scr|ps1)$ ]] ||
     grep -Eiq "virus|trojan|malware|worm|ransomware" "$file"; then
     mv "$file" "$malicious_dir"
     echo "$file is malicious and it is DELETED"
+fi
+```
+
+### Cron Job
+To run `antivirus-cron-sh` as a cronjob
+
+#### prerequisites
+1. verify cron status
+```shell 
+sudo systemctl status cron
+```
+2. Make script executable
+```shell
+sudo chmod +x <path_to_antivirus-cron.sh>
+```
+1. Open crontab editor
+```shell
+crontab -e # select your favorite editor
+```
+
+2. paste the following line
+```shell
+* * * * * sleep 23 && cd <path_to_antivirus-cron.sh> && ./antivirus-cron.sh <path_to_src_dir> <path_to_malicious_dir>
+```
+3. save and quit
+
+
+#### Cron Expression answer
+![img.png](assets/cron-question.png)
+```shell
+31 0 15-21 * 5
+```
+### Whitelist
+When a file is restored by `restore.sh` script, its name is
+appended to `whitelist.txt`. The antivirus daemon will check if
+the file name is in whitelist.txt and skip the deletion if it was found
+
+1. file addition\
+- `filename="${file##*/}"`: strips away everything up to the final `/` leaving
+only the filename
+
+```shell      
+1) mv "$file" "$src_dir"
+        echo "Restored $file to $src_dir"
+        filename="${file##*/}"
+        echo "$filename" >> whitelist.txt ;;
+```
+
+2. file checking 
+- first check if the `whitelist.txt` file exists, then check if the file name in it
+```shell
+if [ -f "whitelist.txt" ]; then
+    filename="${file##*/}"
+    if grep -Fqx "$filename"  whitelist.txt ; then
+      continue
+    fi
 fi
 ```
 
@@ -78,6 +139,3 @@ fi
 
 
 
-
-
-![img.png](assets/img.png)
